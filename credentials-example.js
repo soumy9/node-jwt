@@ -1,10 +1,10 @@
 // rename to credentials.js and add your credentials in these fields
-const mongoDb = {
+const mongoDbCredentials = {
   username: '',
   password: '',
 };
 const jwt_secret_key='';
 module.exports = {
-  mongoDb,
+  mongoDbCredentials,
   jwt_secret_key
 };
