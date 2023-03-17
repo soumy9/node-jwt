@@ -32,9 +32,7 @@
       const data = await res.json();
       console.log(data, typeof data.ok);
       if (!data.ok) {
-        if (data.errors.email) emailError.textContent = data.errors.email;
-        if (data.errors.password)
-          passwordError.textContent = data.errors.password;
+        if (data.error) passwordError.textContent = 'incorrect username and/or passsword';
       } else {
         location.assign('/');
       }

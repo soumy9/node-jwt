@@ -4,12 +4,24 @@ const User = require('../models/user');
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
-  if (!token) res.redirect('/login');
+  if (!token) {
+    // here return is required, otherwise next block of code will run
+    return res.redirect('/login');
+  }
   jwt.verify(token, jwt_secret_key, (err, decodedToken) => {
     if (err) {
       console.log(err?.message);
       res.redirect('/login');
     } else {
+      // Prevent caching of protected pages
+      res.header(
+        'Cache-Control',
+        'private, no-cache, no-store, must-revalidate'
+      );
+      res.header('Expires', '-1');
+      res.header('Pragma', 'no-cache');
+      // ---
+
       // Hence, it will go to next middleware ONLY if the jwt cookie is found and correct
       next();
     }
@@ -35,5 +47,5 @@ const checkUser = async (req, res, next) => {
 
 module.exports = {
   requireAuth,
-  checkUser
+  checkUser,
 };
